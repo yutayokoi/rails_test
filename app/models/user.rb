@@ -63,6 +63,11 @@ class User < ActiveRecord::Base
     UserMailer.password_reset(self).deliver_now
   end
 
+  # パスワードリセットの期限が切れている場合はtrueを返す
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   private
 
     # メールアドレスをすべて小文字にする
